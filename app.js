@@ -1,13 +1,27 @@
+const express = require('express')
+const app = express()
+const port = 8080;
 
-const hhtp = require('http');
+// Middleware : Es lo primero que se ejecuta ( contenido estático )
+app.use( express.static('public') );
 
-// Crear servidor web con Node
-// req = 'request'. Solicitudes que recibe el servidor web
-// res =  'response'. Respuestas que da el servidor web
-hhtp.createServer( (req, res) => {
-    res.write('Hola Mundo');
-    res.end();
-})
-.listen( 8080 ); // Puerto de escucha que usará el servidor web
 
-console.log('Escuchando el puerto', 8080);
+app.get('/hola-mundo', (req, res) => {
+    res.send('Hola mundo en su respectiva ruta');
+});
+
+app.get('/generic', (req, res) => {
+    res.sendFile( __dirname + '/public/generic.html');
+});
+
+app.get('/elements', (req, res) => {
+    res.sendFile( __dirname + '/public/elements.html');
+});
+
+app.get('*', (req, res) => {
+    res.sendFile( __dirname + '/public/404.html');
+});
+
+app.listen( port, () => {
+    console.log(`Example app listening at http://localhost:${port}`);
+});
