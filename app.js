@@ -1,11 +1,12 @@
 const express = require('express')
+const hbs = require('hbs');
+
 const app = express()
 const port = 8080;
-const hbs = require('hbs');
 
 // Handlebars
 app.set('view engine', 'hbs');
-hbs.registerPartials(__dirname + '/views/partials');
+hbs.registerPartials( __dirname + '/views/partials' );
 
 // Middleware : Es lo primero que se ejecuta ( contenido estático )
 app.use( express.static('public') );
@@ -18,11 +19,17 @@ app.get('/', (req, res) => {
 });
 
 app.get('/generic', (req, res) => {
-    res.sendFile( __dirname + '/public/generic.htm')
+    res.render('generic', {
+        nombre: 'Francisco Durante',
+        titulo: 'Curso de Node'
+    });
 });
 
 app.get('/elements', (req, res) => {
-    res.sendFile( __dirname + '/public/elements.html')
+    res.render('elements', {
+        nombre: 'Francisco Durante',
+        titulo: 'Curso de Node'
+    });
 });
 
 app.get('*', (req, res) => {
